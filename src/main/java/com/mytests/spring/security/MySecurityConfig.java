@@ -18,14 +18,16 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureSecurity(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .inMemoryAuthentication()
-                .withUser("irina").password("jolt").roles("PARENT","ADMIN");
+                .withUser("irina").password("jolt").roles("PARENT","ADMIN").and()
+                .withUser("andrey").password("jolt").roles("PARENT").and()
+                .withUser("admin").password("jolt").roles("ADMIN");
     }
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
                 .antMatchers("/resources/**").permitAll()
-                .antMatchers("/home").hasAnyAuthority("ROLE_PARENT")
-                .antMatchers("/secret").hasAnyRole("PARENT","ADMIN")
+                .mvcMatchers("/home").hasAnyAuthority("ROLE_PARENT")
+                .regexMatchers("/secret").hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
