@@ -6,6 +6,9 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 
 @Configuration
@@ -28,6 +31,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/resources/**").permitAll()
                 .mvcMatchers("/home").hasAnyAuthority("ROLE_PARENT")
                 .regexMatchers("/secret").hasAnyRole("ADMIN")
+                .requestMatchers(new AntPathRequestMatcher("/for_all")).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

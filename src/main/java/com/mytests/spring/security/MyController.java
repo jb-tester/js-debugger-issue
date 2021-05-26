@@ -19,4 +19,10 @@ public class MyController {
         model.addAttribute("secret_attr1", "secret_attr1");
         return "secret";
     }
+
+    @RequestMapping("/for_all")
+    public String for_all(ModelMap model) {
+        model.addAttribute("for_all_attr1", "for_all_attr1");
+        return "common";
+    }
 }
